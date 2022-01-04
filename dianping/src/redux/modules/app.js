@@ -15,7 +15,7 @@ export const actions = {
   })
 }
 
-const reducer = {state = initialState, action} => {
+const reducer = (state = initialState, action) => {
   const { type, error } = action
   if (type === types.CLEAR_ERROR) {
     return {...state, error: null}
@@ -24,9 +24,10 @@ const reducer = {state = initialState, action} => {
   }
   return state;
 }
-  
+
 export default reducer;
 
+// selectors
 export const getError = (state) => {
   return state.app.error
 }

@@ -21,7 +21,7 @@ class ErrorToast extends Component {
 
   componentWillUnmount() {
     if(this.timer) {
-      clearTimerout(this.timmer)
+      clearTimeout(this.timer)
     }
   }
 }

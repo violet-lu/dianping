@@ -1,21 +1,18 @@
-import { createStore, applyMiddleware } from "redux"
-import thunk from "redux-thunk"
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import api from "./middleware/api";
-import rootReducer from "/modules"
+import rootReducer from "./modules";
 
+let store;
 
-//判断redux是否在生产环境下运行以及判断浏览器是否安装了redux调试工具
 if (
-  process.env.NODE_ENV !== "production" && 
-  window._REDUX_DEVTOOLS_EXTENTION_
+  process.env.NODE_ENV !== "production" &&
+  window.__REDUX_DEVTOOLS_EXTENSION__
 ) {
-  const composeEnhancers = 
-  window._REDUX_DEVTOOLS_EXTENTION_;
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, api)));
 } else {
   store = createStore(rootReducer, applyMiddleware(thunk, api));
 }
 
-let store = createStore(rootReducer, applyMiddleware(thunk) );
-
-export default store
+export default store;

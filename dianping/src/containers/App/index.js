@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux'
-import ErrorToast from '../../components/ErrorToast';
-import { action as appAction, getError } from '../../redux/modules/app';
-import './style.css'
-
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ErrorToast from "../../components/ErrorToast";
+import { actions as appActions, getError } from "../../redux/modules/app";
+import Home from '../Home'
+import "./style.css";
 
 class App extends Component {
   render() {
@@ -13,8 +13,9 @@ class App extends Component {
       appActions: { clearError }
     } = this.props;
     return (
-      <div className='App'>
-        {error ? <ErrorToast msg={error} clearError = {clearError} /> : null}
+      <div className="App">
+        <Home/>
+        {error ? <ErrorToast msg={error} clearError={clearError} /> : null}
       </div>
     );
   }
@@ -23,13 +24,17 @@ class App extends Component {
 const mapStateToProps = (state, props) => {
   return {
     error: getError(state)
-  }
-}
+  };
+};
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     appActions: bindActionCreators(appActions, dispatch)
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+

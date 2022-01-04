@@ -25,27 +25,26 @@ export const action ={
 const fetchLiKes = endpoint => ({
   [FETCH_DATA]: {
     types: [
-      type.FETCH_LIKES_REQUEST,
-      type.FETCH_LIKES_SUCCESS,
-      type.FETCH_LIKES_FAILURE
+      types.FETCH_LIKES_REQUEST,
+      types.FETCH_LIKES_SUCCESS,
+      types.FETCH_LIKES_FAILURE
     ],
     endpoint,
     schema
   }
 })
 
-const reducer = {state = [], action} => {
-    switch (action.type) {
-      case types.FETCH_LIKES_REQUEST:
-        //todo
-      case types.FETCH_LIKES_SUCCESS:
-        //tofo
-      case types.FETCH_LIKES_FAILURE:
-        //todo
-      default:
-        return state;
-
-    }
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case types.FETCH_LIKES_REQUEST:
+    // todo
+    case types.FETCH_LIKES_SUCCESS:
+    // todo
+    case types.FETCH_LIKES_FAILURE:
+    // todo
+    default:
+      return state;
   }
+}
   
-  export default reducer;
+export default reducer;

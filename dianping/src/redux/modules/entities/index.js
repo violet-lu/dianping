@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import products from "./products";
 import shops from "./shops";
-import orders from "./oders";
+import orders from "./orders";
 import comments from "./comments";
 
 const rootReducer = combineReducers({
@@ -10,3 +10,5 @@ const rootReducer = combineReducers({
     orders,
     comments
 })
+
+export default rootReducer
