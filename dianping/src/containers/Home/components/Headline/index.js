@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Slider from "react-slick"
+import React, { Component } from "react";
+import Slider from "react-slick";
 import './style.css'
 
 const dataSource = [
@@ -23,39 +23,43 @@ const dataSource = [
     title: "吓到腿软！12条恐怖玻璃栈道，敢去吗？",
     url:
       "https://h5.dianping.com/app/h5-ranklist-static/list_nearby.html?headlineId=484549&source=weixinM"
-  }  
-]
+  }
+];
 
 class Headline extends Component {
   render() {
     const settings = {
-      sliderToShow: 1,
+      slidesToShow: 1,
       swipeToSlide: true,
       autoplay: true,
       vertical: true
-    }
+    };
+
     return (
-      <div className='headline'>
-        <div className='headline__logo'/>
-        <div className='headline__slider'>
+      <div className="headline">
+        <div className="headline__logo" />
+        <div className="headline__slider">
           <Slider {...settings}>
             {dataSource.map((item, index) => {
               return (
                 <a
-                key={index} className='headline__sliderInner' href={item.url}>
-                  <div className='headline__sliderTitle'>{item.title}</div>
-                  <div className='headline__sliderImgWrapper'>
-                    <img className='headline__sliderImg' src={item.pic} />
+                  key={index}
+                  className="headline__sliderInner"
+                  href={item.url}
+                >
+                  <div className="headline__sliderTitle">{item.title}</div>
+                  <div className="headline__sliderImgWrapper">
+                    <img className="headline__sliderImg" src={item.pic} />
                   </div>
                 </a>
-              ) 
+              );
             })}
           </Slider>
         </div>
-        
       </div>
     );
   }
 }
 
 export default Headline;
+
