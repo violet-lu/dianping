@@ -1,5 +1,3 @@
-import { action } from "./home"
-
 const initialState = {
   error: null
 }

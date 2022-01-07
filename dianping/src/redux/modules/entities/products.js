@@ -1,10 +1,7 @@
-import { action } from "../home";
-
 export const schema = {
   name: 'products',
   id: 'id',
-}
-
+} 
 
 const reducer = (state = {}, action) => {
   if(action.response && action.response.products) {
@@ -12,5 +9,5 @@ const reducer = (state = {}, action) => {
   }
   return state;
 }
-  
+
 export default reducer;
