@@ -1,7 +1,8 @@
 import { combineReducers } from "redux"
 import url from "../../utils/url"
 import { FETCH_DATA } from "../middleware/api"
-import { schema as keywordSchema } from "./entities/keywords"
+import { schema as keywordSchema, getKeywordById } from "./entities/keywords"
+import { schema as shopSchema } from "./entities/keywords"
 
 export const types = {
   //获取热门关键词
@@ -17,7 +18,12 @@ export const types = {
   CLEAR_INPUT_TEXT: "SEARCH/CLEAR_INPUT_TEXT",
   //历史查询记录
   ADD_HISTORY_KEYWORD: "SEARCH/ADD_HISTORY_KEYWORD",
-  CLEAR_HISTORY_KEYWORDS: "SEARCH/CLEAR_HISTORY_KEYWORDS"
+  CLEAR_HISTORY_KEYWORDS: "SEARCH/CLEAR_HISTORY_KEYWORDS",
+  //根据关键词查询结果
+  FETCH_SHOPS_REQUEST: "SEARCH/FETCH_SHOPS_REQUEST",
+  FETCH_SHOPS_SUCCESS: "SEARCH/FETCH_SHOPS_SUCCESS",
+  FETCH_SHOPS_FAILURE: "SEARCH/FETCH_SHOPS_FAILURE",
+  
 }
 
 const initialState = {
@@ -29,14 +35,12 @@ const initialState = {
 
 
 
-  relatedKeywords: {
+  relatedKeywords: {},
 
-  },
+  historyKyewords: [],
 
-  historyKyewords: [
-
-  ]
-}
+  searchedShopsByKeyword: {}
+};
 
 export const actions = {
   //获取热门关键词
@@ -104,6 +108,19 @@ const fetchRelatedKeywords = (text, endpoint) => ({
   text
 })
 
+const fetchRelatedShops = (text, endpoint) => ({
+  [FETCH_DATA]: {
+    types:[
+      types.FETCH_SHOPS_REQUEST,
+      types.FETCH_SHOPS_SUCCESS,
+      types.FETCH_SHOPS_FAILURE
+    ],
+    endpoint,
+    schema: shopSchema
+  },
+  text
+})
+
 //reducer
 const popularkeywords = (state = initialState.popularKeyords, action) => {
   switch (action.type) {
@@ -159,6 +176,19 @@ const relatedKeywordsByText = (
   }
 };
 
+const searchedShopsByKeyword = (state = { isFetching: false, ids: []}, action) => {
+  switch (action.type) {
+    case types.FETCH_SHOPS_REQUEST:
+      return { ...state, isFetching: true };
+    case types.FETCH_SHOPS_SUCCESS:
+      return { ...state, isFetching: false, ids: action.response.ids};
+    case types.FETCH_SHOPS_FAILURE:
+      return {...state, isFetching: false};
+    default:
+      return state;
+  }
+}
+
 const inputText = (state = initialState.inputText, action) => {
   switch(action.type) {
     case types.SET_INPUT_TEXT:
@@ -190,7 +220,39 @@ const reducer = combineReducers({
   popularkeywords,
   relatedKeywords,
   inputText,
-  historyKyewords
+  historyKyewords,
+  searchedShopsByKeyword
 })
 
 export default reducer;
+
+//selector
+export const getPopularKeywords = state => {
+  return state.search.popularKeyords.ids.map(id => {
+    return getKeywordById(state, id)
+  })
+}
+
+export const getRelatedKeywords = state => {
+  const text = state.search.inputText;
+  if(!text || text.trim().length === 0) {
+    return [];
+  }
+  const relatedKeywords = state.search.relatedKeywords[text];
+  if(!relatedKeywords) {
+    return []
+  }
+  return relatedKeywords.id.map(id => {
+    return getKeywordById(state, id)
+  })
+}
+
+export const getInputText = state => {
+  return state.search.inputText
+}
+
+export const getHistoryKeywords = state => {
+  return state.search.historyKeywords.map(id => {
+    return getKeywordById(state, id)
+  })
+}
