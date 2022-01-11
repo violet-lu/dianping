@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from "react-router-dom"
+import { Route, Navigate } from "react-router-dom"
 import { connect } from "react-redux"
 import { isLogin } from "../../redux/modules/login"
 
@@ -9,7 +9,7 @@ class PrivateRoute extends Component {
     return (
       <Route {...rest} render={props => {
         return login ? (<Component {...props} /> ) : (
-          <Redirect to={{pathname: "/login", state: {from: props.location}}}
+          <Navigate to={{pathname: "/login", state: {from: props.location}}}
         />)
       }} />
     );

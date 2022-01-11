@@ -3,7 +3,7 @@ import "./style.css";
 
 class Remark extends Component {
   render() {
-    const { purchaseNote, vvalidityPeriod} = this.props.data;
+    const { purchaseNote, validityPeriod} = this.props.data;
     return (
       <div className="remark">
         <div className="remark__header">
@@ -18,7 +18,7 @@ class Remark extends Component {
           {purchaseNote.map((item, index) => {
             return (
             <dl key = {index} className="remark__item">
-              <dt className="remark__itemTitle">{item,title}</dt>
+              <dt className="remark__itemTitle">{item.title}</dt>
               <dd className="remark__itemDesc">{item.content}</dd>
             </dl>
             );

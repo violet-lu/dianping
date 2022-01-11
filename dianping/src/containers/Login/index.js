@@ -8,7 +8,7 @@ import {
   actions as loginActions
 } from "../../redux/modules/login";
 import { bindActionCreators } from "redux";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 
 class Login extends Component {
@@ -16,9 +16,9 @@ class Login extends Component {
     const { username, password, login, location: {state} } = this.props;
     if (login) {
       if(state && state.from) {
-        return <Redirect to={state.from} />
+        return <Navigate to={state.from} />
       }
-      return <Redirect to="/user" />;
+      return <Navigate to="/user" />;
     }
     return (
       <div>

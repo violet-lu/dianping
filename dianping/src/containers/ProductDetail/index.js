@@ -1,16 +1,18 @@
-import React, { Component } from 'react';
-import ProductOverview from './components/ProductOverview';
-import ShopInfo from './components/ShopInfo';
-import Detail from './components/Detail';
-import Remark from './components/Remark';
-import BuyButton from "./components/BuyBotton"
-import Header from "../../components/Header"
+import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import ProductOverview from "./components/ProductOverview";
+import ShopInfo from "./components/ShopInfo";
+import Detail from "./components/Detail";
+import Remark from "./components/Remark";
+import BuyButton from "./components/BuyBotton";
+import Header from "../../components/Header";
 import {
   actions as detailActions,
   getProduct,
   getRelatedShop
-} from "../../redux/modules/detail"
-import { bindActionCreators } from 'redux';
+} from "../../redux/modules/detail";
+
 
 class ProductDetail extends Component {
   render() {
@@ -24,8 +26,8 @@ class ProductDetail extends Component {
         )}
         {product && (
           <div>
-            <Detail data = {product} />
-            <Remark data = {product} />
+            <Detail data={product} />
+            <Remark data={product} />
             <BuyButton productId={product.id} />
           </div>
         )}
@@ -35,25 +37,24 @@ class ProductDetail extends Component {
 
   componentDidMount() {
     const { product } = this.props;
-    if(!product) {
+    if (!product) {
       const productId = this.props.match.params.id;
       this.props.detailActions.loadProductDetail(productId);
     } else if (!this.props.relatedShop) {
-      this.props.detailActions.loadProductDetail(product.nearestShop);
+      this.props.detailActions.loadShopById(product.nearestShop);
     }
   }
 
   componentDidUpdate(preProps) {
-    //第一次获取到产品详情时，需要继续获取关联的店铺信息
+    // 第一次获取到产品详情时，需要继续获取关联的店铺信息
     if (!preProps.product && this.props.product) {
-      this.props.detailActions.loadShopById(this.props.product.nearestShop)
+      this.props.detailActions.loadShopById(this.props.product.nearestShop);
     }
   }
 
   handleBack = () => {
-    this.props.history.goBack()
+    this.props.history.goBack();
   };
-
 }
 
 const mapStateToProps = (state, props) => {
@@ -67,10 +68,11 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => {
   return {
     detailActions: bindActionCreators(detailActions, dispatch)
-  }
-}
+  };
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ProductDetail);
+
