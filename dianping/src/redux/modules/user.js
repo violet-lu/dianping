@@ -322,4 +322,3 @@ export const getCurrentOrderComment = state => {
 export const getCurrentOrderStars = state => {
   return state.user.currentOrder ? state.user.currentOrder.stars : 0;
 };
-
